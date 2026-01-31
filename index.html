@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Wealth Calculator - Bitcoin & Altcoin Profit Calculator Tool</title>
+    <meta name="description" content="Free crypto wealth calculator for Bitcoin, Ethereum, and altcoins. Calculate potential profits if crypto hits ATH, 10x, or $1. Real-time prices, TradingView charts. HODL to the moon!">
+    <meta name="keywords" content="crypto calculator, bitcoin calculator, crypto profit calculator, wealth calculator, bitcoin to the moon, altcoin calculator, crypto trading tool, ETH calculator, SOL calculator, cryptocurrency profits, crypto investment calculator, bitcoin price calculator, ethereum calculator, crypto wealth tool, digital asset calculator, BTC profit calculator, crypto gains calculator, investment calculator crypto, crypto portfolio calculator, bitcoin investment tool, ethereum profit calculator, crypto calculator online, free crypto calculator, crypto market calculator, bitcoin future value, ethereum future value, altcoin profit tool">
+    <meta name="author" content="CryptoCalc">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://cryptocalc.example.com/">
+    <meta property="og:title" content="Crypto Wealth Calculator - Bitcoin & Altcoin Profit Calculator">
+    <meta property="og:description" content="Calculate your potential crypto profits with real-time prices and TradingView charts. See how much you'll make if Bitcoin or altcoins go to the moon!">
+    <meta property="og:image" content="https://cryptocalc.example.com/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://cryptocalc.example.com/">
+    <meta property="twitter:title" content="Crypto Wealth Calculator - Bitcoin Profit Calculator">
+    <meta property="twitter:description" content="Free tool to calculate crypto profits. Real-time BTC, ETH prices. To the moon calculator! ">
+    <meta property="twitter:image" content="https://cryptocalc.example.com/twitter-image.jpg">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://cryptocalc.example.com/">
+
+    <!-- Favicon (placeholder) -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Crypto Wealth Calculator",
+      "description": "Calculate potential profits from cryptocurrency investments with real-time prices and advanced calculations.",
+      "url": "https://cryptocalc.example.com/",
+      "applicationCategory": "FinanceApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "creator": {
+        "@type": "Organization",
+        "name": "CryptoCalc"
+      },
+      "featureList": [
+        "Real-time cryptocurrency prices",
+        "Profit calculations for multiple scenarios",
+        "TradingView integration",
+        "Multiple cryptocurrency support"
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: {
+                            bg: '#0B0E14',
+                            card: '#151A25',
+                            accent: '#00FF94', // Neon Green
+                            gold: '#FFD700'    // Gold for Money
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s infinite',
+                        'fade-in': 'fadeIn 1s ease-out',
+                        'slide-up': 'slideUp 0.8s ease-out',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0B0E14; color: white; }
+        
+        /* Glassmorphism Effect */
+        .glass-card {
+            background: rgba(21, 26, 37, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0E14; }
+        ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00FF94; }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px rgba(0, 255, 148, 0.3); }
+            100% { box-shadow: 0 0 40px rgba(0, 255, 148, 0.6); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center relative overflow-x-hidden p-4">
+
+    <div class="fixed top-0 left-0 w-96 h-96 bg-brand-accent/10 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+    <div class="fixed bottom-0 right-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 pointer-events-none"></div>
+
+    <header>
+        <h1 style="position: absolute; left: -9999px;">Crypto Wealth Calculator - Bitcoin Calculator Tool</h1>
+    </header>
+
+    <main class="w-full max-w-4xl relative z-10">
+
+        <section class="hero text-center mb-8">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-tr from-brand-accent to-emerald-600 shadow-lg shadow-emerald-500/20 mb-4">
+                <i class="fas fa-rocket text-3xl text-white" aria-hidden="true"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-black tracking-tight mb-2">
+                Cryptocurrency Wealth <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-emerald-400">Calculator</span>
+            </h1>
+            <p class="text-slate-400 font-medium">Calculate your future fortune with Bitcoin, Ethereum, and altcoin profit calculations.</p>
+        </section>
+
+        <!-- TradingView BTC Chart -->
+        <section class="chart-section glass-card rounded-3xl p-6 md:p-8 mb-8 animate-slide-up" aria-labelledby="chart-title">
+            <h2 id="chart-title" class="text-2xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">Bitcoin TradingView Chart</h2>
+            <div class="tradingview-widget-container">
+                <div id="tradingview_chart" role="img" aria-label="Interactive Bitcoin price chart from TradingView"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+                <script type="text/javascript">
+                    new TradingView.widget({
+                        "width": "100%",
+                        "height": 400,
+                        "symbol": "BINANCE:BTCUSDT",
+                        "interval": "D",
+                        "timezone": "Etc/UTC",
+                        "theme": "dark",
+                        "style": "1",
+                        "locale": "en",
+                        "toolbar_bg": "#f1f3f6",
+                        "enable_publishing": false,
+                        "allow_symbol_change": true,
+                        "container_id": "tradingview_chart"
+                    });
+                </script>
+            </div>
+            <div id="btcPrice" class="text-center mt-4 text-lg font-semibold text-brand-accent animate-glow" aria-live="polite"></div>
+        </section>
+
+        <!-- Market Insights & Advice -->
+        <section class="insights-section glass-card rounded-3xl p-6 md:p-8 mb-8 animate-slide-up" aria-labelledby="insights-title">
+            <h2 id="insights-title" class="text-2xl font-bold mb-4 text-center text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white">📊 Market Insights & Advice</h2>
+            <div id="marketInsights" class="space-y-4">
+                <div class="text-center text-slate-400">
+                    <i class="fas fa-spinner fa-spin text-2xl mb-2"></i>
+                    <p>Loading market data...</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="calculator-section glass-card rounded-3xl p-6 md:p-8" aria-labelledby="calc-title">
+            
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Select Asset</label>
+                <div class="relative group">
+                    <select id="coinSelect" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl px-4 py-4 appearance-none focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all cursor-pointer hover:bg-slate-800/50">
+                        <option value="loading">Loading Live Prices...</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-brand-accent">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 ml-1">Holdings (Amount)</label>
+                <input type="number" id="amountInput" placeholder="e.g. 1,000,000" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl px-4 py-4 focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all placeholder-slate-600 font-mono text-lg">
+            </div>
+
+            <div class="mb-6">
+                <label class
+                <div class="relative">
+                    <select id="targetSelect" class="w-full bg-slate-900/50 border border-slate-700 text-white rounded-xl px-4 py-4 appearance-none focus:outline-none focus:border-brand-accent focus:ring-1 focus:ring-brand-accent transition-all cursor-pointer hover:bg-slate-800/50">
+                        <option value="10"> 10x (Realistic Pump)</option>
+                        <option value="100"> 100x (Super Cycle)</option>
+                        <option value="1000"> 1000x (Moon Mission)</option>
+                        <option value="ath"> All-Time High (ATH)</option>
+                        <option value="0.01"> Reach $0.01</option>
+                        <option value="0.10"> Reach $0.10</option>
+                        <option value="1"> Reach $1.00</option>
+                    </select>
+                    <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-brand-accent">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="startSequence()" class="w-full bg-gradient-to-r from-brand-accent to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-black font-black text-xl py-5 rounded-xl shadow-lg shadow-emerald-500/20 transform transition hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2 group">
+                CALCULATE PROFIT 
+                <span class="group-hover:rotate-12 transition-transform"></span>
+            </button>
+
+            <div id="resultBox" class="hidden mt-8 pt-8 border-t border-slate-800 text-center animate-fade-in">
+                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Potential Portfolio Value</p>
+                <div id="finalResult" class="text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brand-accent to-white drop-shadow-lg mb-4">
+                    $0.00
+                </div>
+                <div class="flex justify-center gap-2 mb-6">
+                    <span class="bg-slate-800 text-slate-400 text-xs px-3 py-1 rounded-full">Not Financial Advice</span>
+                </div>
+
+                <!-- Modern Trading CTA Section -->
+                <div class="mt-8 bg-gradient-to-br from-slate-900/90 to-slate-800/90 rounded-2xl p-6 border border-brand-accent/20 shadow-2xl shadow-brand-accent/10 backdrop-blur-sm">
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-brand-accent mb-2 uppercase tracking-wider">Start Trading & Claim Bonus</h3>
+                        <p class="text-slate-300 text-sm">Turn your profits into reality with top crypto exchanges</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <a href="https://accounts.binance.com/register?ref=YOUR_BINANCE_ID" target="_blank"
+                           class="group flex items-center justify-between bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:from-yellow-300 hover:via-yellow-400 hover:to-yellow-500 text-black font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/30 active:scale-95">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-coins text-xl group-hover:rotate-12 transition-transform duration-300"></i>
+                                <div class="text-left">
+                                    <span class="block text-sm font-bold">Binance</span>
+                                    <span class="block text-xs opacity-80">Best for Beginners</span>
+                                </div>
+                            </div>
+                            <i class="fas fa-arrow-right text-lg group-hover:translate-x-1 transition-transform duration-300"></i>
+                        </a>
+
+                        <a href="https://www.coinbase.com/join/YOUR_REF" target="_blank"
+                           class="group flex items-center justify-between bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-400 hover:via-blue-500 hover:to-blue-600 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/30 active:scale-95">
+                            <div class="flex items-center gap-3">
+                                <i class="fab fa-ethereum text-xl group-hover:rotate-12 transition-transform duration-300"></i>
+                                <div class="text-left">
+                                    <span class="block text-sm font-bold">Coinbase</span>
+                                    <span class="block text-xs opacity-80">Trusted Exchange</span>
+                                </div>
+                            </div>
+                            <i class="fas fa-arrow-right text-lg group-hover:translate-x-1 transition-transform duration-300"></i>
+                        </a>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <p class="text-xs text-slate-400">Earn commissions when you trade • Secure & Regulated</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <footer class="mt-8 text-center text-slate-600 text-sm bg-WHITE/5 rounded-xl p-4 glass-card">
+            <p>Powered by CoinGecko API • Built for Dreamers</p>
+            <p class="mt-2">
+                <a href="https://coinmarketcap.com/?ref=YOUR_AFFILIATE_ID" target="_blank" class="hover:text-brand-accent">Crypto News</a> |
+                <a href="https://accounts.binance.com/register?ref=YOUR_REF_ID" target="_blank" class="hover:text-brand-accent">Bitcoin Calculator</a> |
+                <a href="https://www.coinbase.com/join/YOUR_REF" target="_blank" class="hover:text-brand-accent">Ethereum Tools</a> |
+                <a href="https://www.kraken.com/" target="_blank" class="hover:text-brand-accent">Altcoin Profits</a>
+            </p>
+            <p class="mt-2 text-xs">© 2026 CryptoCalc. All rights reserved. This is not financial advice.| Created by MT_TEAM.</p>
+        </footer>
+    </main>
+
+
+
+
+
+    <script>
+        let currentPrices = {};
+        const athData = {
+            'pepe': 0.00001074, 'shiba-inu': 0.00008845, 'dogecoin': 0.73, 
+            'bonk': 0.000047, 'floki': 0.00034, 'solana': 260, 'bitcoin': 73700,
+            'xrp': 3.84, 'cardano': 3.10
+        };
+
+        const elements = {
+            coinSelect: document.getElementById('coinSelect'),
+            amountInput: document.getElementById('amountInput'),
+            targetSelect: document.getElementById('targetSelect'),
+            resultBox: document.getElementById('resultBox'),
+            finalResult: document.getElementById('finalResult'),
+            btcPrice: document.getElementById('btcPrice')
+        };
+
+        // 1. Fetch Live Prices
+        async function fetchPrices() {
+            const coins = ['pepe', 'shiba-inu', 'dogecoin', 'bonk', 'floki', 'solana', 'bitcoin', 'xrp', 'cardano'];
+            try {
+                const res = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${coins.join(',')}&vs_currencies=usd&include_24hr_change=true`);
+                const data = await res.json();
+                currentPrices = data;
+
+                // Update BTC Price
+                if (data.bitcoin) {
+                    elements.btcPrice.innerText = `Current BTC Price: $${data.bitcoin.usd.toLocaleString()}`;
+                }
+
+                // Populate Dropdown
+                elements.coinSelect.innerHTML = '';
+                coins.forEach(coin => {
+                    if(data[coin]) {
+                        const price = data[coin].usd;
+                        const formattedPrice = price < 1 ? price.toFixed(8) : price.toLocaleString();
+                        const name = coin.charAt(0).toUpperCase() + coin.slice(1).replace('-', ' ');
+
+                        const option = document.createElement('option');
+                        option.value = coin;
+                        option.text = `${name} ($${formattedPrice})`;
+                        elements.coinSelect.appendChild(option);
+                    }
+                });
+
+                // Generate market insights after fetching prices
+                await generateMarketInsights(data);
+            } catch (error) {
+                elements.coinSelect.innerHTML = '<option>⚠️ API Error - Please Refresh</option>';
+                console.error("API Error:", error);
+            }
+        }
+
+        // Generate Market Insights & Advice
+        async function generateMarketInsights(priceData) {
+            try {
+                // Fetch additional market data
+                const trendingRes = await fetch('https://api.coingecko.com/api/v3/search/trending');
+                const trendingData = await trendingRes.json();
+
+                const globalRes = await fetch('https://api.coingecko.com/api/v3/global');
+                const globalData = await globalRes.json();
+
+                const insightsContainer = document.getElementById('marketInsights');
+                insightsContainer.innerHTML = '';
+
+                // Market Overview
+                const marketOverview = document.createElement('div');
+                marketOverview.className = 'bg-slate-800/50 rounded-xl p-4 border border-slate-700';
+                marketOverview.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="fas fa-chart-line text-brand-accent text-xl"></i>
+                        <h3 class="text-lg font-bold text-white">Market Overview</h3>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                        <div>
+                            <p class="text-xs text-slate-400">BTC Dominance</p>
+                            <p class="text-lg font-bold text-brand-accent">${globalData.data.market_cap_percentage.btc.toFixed(1)}%</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Active Cryptos</p>
+                            <p class="text-lg font-bold text-white">${globalData.data.active_cryptocurrencies.toLocaleString()}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">24h Volume</p>
+                            <p class="text-lg font-bold text-green-400">$${(globalData.data.total_volume.usd / 1e9).toFixed(1)}B</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400">Market Cap</p>
+                            <p class="text-lg font-bold text-blue-400">$${(globalData.data.total_market_cap.usd / 1e12).toFixed(2)}T</p>
+                        </div>
+                    </div>
+                `;
+                insightsContainer.appendChild(marketOverview);
+
+                // Bitcoin Analysis
+                const btcChange = priceData.bitcoin.usd_24h_change;
+                const btcAdvice = document.createElement('div');
+                btcAdvice.className = `rounded-xl p-4 border ${btcChange > 0 ? 'bg-green-900/20 border-green-500/30' : 'bg-red-900/20 border-red-500/30'}`;
+                btcAdvice.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="fab fa-bitcoin text-2xl ${btcChange > 0 ? 'text-green-400' : 'text-red-400'}"></i>
+                        <h3 class="text-lg font-bold text-white">Bitcoin Analysis</h3>
+                    </div>
+                    <div class="space-y-2">
+                        <p class="text-sm text-slate-300">
+                            <span class="font-semibold">Current Price:</span> $${priceData.bitcoin.usd.toLocaleString()}
+                        </p>
+                        <p class="text-sm ${btcChange > 0 ? 'text-green-400' : 'text-red-400'}">
+                            <span class="font-semibold">24h Change:</span> ${btcChange > 0 ? '+' : ''}${btcChange.toFixed(2)}%
+                        </p>
+                        <div class="mt-3 p-3 rounded-lg ${btcChange > 0 ? 'bg-green-900/30' : 'bg-red-900/30'}">
+                            <p class="text-sm font-medium ${btcChange > 0 ? 'text-green-300' : 'text-red-300'}">
+                                ${btcChange > 0
+                                    ? '📈 Bitcoin is in an uptrend! Consider holding strong or adding to positions.'
+                                    : '📉 Bitcoin is experiencing a dip. This could be a buying opportunity for long-term HODLers.'
+                                }
+                            </p>
+                        </div>
+                    </div>
+                `;
+                insightsContainer.appendChild(btcAdvice);
+
+                // Trending Coins
+                const trendingCoins = document.createElement('div');
+                trendingCoins.className = 'bg-slate-800/50 rounded-xl p-4 border border-slate-700';
+                trendingCoins.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="fas fa-fire text-orange-400 text-xl"></i>
+                        <h3 class="text-lg font-bold text-white">Trending Coins</h3>
+                    </div>
+                    <div class="space-y-2">
+                        ${trendingData.coins.slice(0, 5).map(coin => `
+                            <div class="flex items-center justify-between p-2 bg-slate-900/50 rounded-lg">
+                                <div class="flex items-center gap-2">
+                                    <img src="${coin.item.thumb}" alt="${coin.item.name}" class="w-6 h-6 rounded-full">
+                                    <span class="text-sm font-medium text-white">${coin.item.name}</span>
+                                    <span class="text-xs text-slate-400">(${coin.item.symbol.toUpperCase()})</span>
+                                </div>
+                                <span class="text-xs bg-brand-accent/20 text-brand-accent px-2 py-1 rounded-full">Trending</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <p class="text-xs text-slate-400 mt-3">💡 Trending coins often indicate market interest. Research thoroughly before investing!</p>
+                `;
+                insightsContainer.appendChild(trendingCoins);
+
+                // Investment Advice
+                const advice = document.createElement('div');
+                const marketCapChange = globalData.data.market_cap_change_percentage_24h_usd;
+                advice.className = `rounded-xl p-4 border ${marketCapChange > 0 ? 'bg-blue-900/20 border-blue-500/30' : 'bg-orange-900/20 border-orange-500/30'}`;
+                advice.innerHTML = `
+                    <div class="flex items-center gap-3 mb-3">
+                        <i class="fas fa-lightbulb text-yellow-400 text-xl"></i>
+                        <h3 class="text-lg font-bold text-white">Smart Investment Tips</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-slate-900/50 rounded-lg">
+                            <p class="text-sm text-slate-300 mb-2"><strong>🎯 Risk Management:</strong> Never invest more than you can afford to lose. Use dollar-cost averaging for safer entry.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/50 rounded-lg">
+                            <p class="text-sm text-slate-300 mb-2"><strong>📊 Research First:</strong> Always DYOR (Do Your Own Research) before investing. Check fundamentals, use cases, and team background.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/50 rounded-lg">
+                            <p class="text-sm text-slate-300 mb-2"><strong>⏰ Long-term Mindset:</strong> Crypto is volatile short-term but has shown strong long-term growth potential. Focus on projects with real utility.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/50 rounded-lg">
+                            <p class="text-sm text-slate-300 mb-2"><strong>💰 Diversification:</strong> Don't put all your eggs in one basket. Spread investments across different assets and risk levels.</p>
+                        </div>
+                        <div class="p-3 bg-slate-900/50 rounded-lg">
+                            <p class="text-sm text-slate-300 mb-2"><strong>📈 Market Timing:</strong> ${marketCapChange > 0 ? 'Market is bullish - consider position sizing carefully.' : 'Market correction may present opportunities for quality projects.'}</p>
+                        </div>
+                    </div>
+                `;
+                insightsContainer.appendChild(advice);
+
+            } catch (error) {
+                console.error("Insights Error:", error);
+                document.getElementById('marketInsights').innerHTML = `
+                    <div class="text-center text-red-400">
+                        <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+                        <p>Unable to load market insights at this time.</p>
+                    </div>
+                `;
+            }
+        }
+
+
+
+        // 2. Start Logic
+        function startSequence() {
+            const amount = elements.amountInput.value;
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount of coins!");
+                return;
+            }
+            elements.resultBox.classList.add('hidden');
+            calculateProfit();
+            // ... داخل دالة calculateProfit()، في النهاية تماماً:
+
+elements.resultBox.classList.remove('hidden');
+elements.resultBox.scrollIntoView({ behavior: 'smooth' });
+
+// أضف هذا السطر فقط:
+// يقوم بجذب الانتباه لأزرار الشراء بعد ظهور النتيجة بقليل
+setTimeout(() => {
+    document.querySelector('.bg-[#FCD535]').classList.add('animate-pulse');
+}, 1000);
+        }
+
+        // 4. Calculate Logic
+        function calculateProfit() {
+            const coin = elements.coinSelect.value;
+            const amount = parseFloat(elements.amountInput.value);
+            const target = elements.targetSelect.value;
+            const currentPrice = currentPrices[coin].usd;
+            
+            let futurePrice = 0;
+
+            if (target === 'ath') {
+                futurePrice = athData[coin] || (currentPrice * 5); // Fallback if ATH missing
+            } else if (['10', '100', '1000'].includes(target)) {
+                futurePrice = currentPrice * parseFloat(target);
+            } else {
+                futurePrice = parseFloat(target);
+            }
+
+            const totalValue = amount * futurePrice;
+            
+            // Format to USD
+            elements.finalResult.innerText = new Intl.NumberFormat('en-US', {
+                style: 'currency',
+                currency: 'USD',
+                maximumFractionDigits: 2
+            }).format(totalValue);
+
+            elements.resultBox.classList.remove('hidden');
+            
+            // Smooth scroll to result
+            elements.resultBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Init
+        fetchPrices();
+    </script>
+</body>
+</html>
